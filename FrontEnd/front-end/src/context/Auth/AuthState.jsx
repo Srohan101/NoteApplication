@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AuthContext from './AuthContext';
 
 function AuthState(props) {
@@ -55,26 +55,26 @@ function AuthState(props) {
         localStorage.setItem("token", json.token);
     }
 
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    // const [user, setUser] = useState(null);
+    // const [token, setToken] = useState(localStorage.getItem("token"));
 
-    useEffect(() => {
-        if (token) {
-            // Optional: fetch user info using token or decode token
-            setUser({}); // Set actual user
-        }
-    }, [token]);
+    // useEffect(() => {
+    //     if (token) {
+    //         // Optional: fetch user info using token or decode token
+    //         setUser({}); // Set actual user
+    //     }
+    // }, [token]);
 
-    const login = (token) => {
-        localStorage.setItem("token", token);
-        setToken(token);
-    };
+    // const login = (token) => {
+    //     localStorage.setItem("token", token);
+    //     setToken(token);
+    // };
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        setToken(null);
-        setUser(null);
-    };
+    // const logout = () => {
+    //     localStorage.removeItem("token");
+    //     setToken(null);
+    //     setUser(null);
+    // };
 
 
 
