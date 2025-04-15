@@ -55,7 +55,7 @@ namespace NoteApplicationAPI.Services.Implementation
                 throw new ArgumentException(ex.Message);
             }
         }    
-        public async Task<NoteRequestModel> getNoteDetailsById(int Id)
+        public async Task<NoteByIdResponseModel> getNoteDetailsById(int Id)
         {
             try
             {
@@ -63,8 +63,8 @@ namespace NoteApplicationAPI.Services.Implementation
                 param.Flag = 'H';
                 param.CreatedBy = _currentUserService.UserId!.Value;
                 param.Id =  Id;
-                var res = await _dapperRepo.GetFromMultipleQuery<NoteRequestModel,int>(storedProcedure, param);
-                var response = ((List<NoteRequestModel>)res[0]).FirstOrDefault();
+                var res = await _dapperRepo.GetFromMultipleQuery<NoteByIdResponseModel, int>(storedProcedure, param);
+                var response = ((List<NoteByIdResponseModel>)res[0]).FirstOrDefault();
                 response.CategoryIds = (List<int>)res[1];
                 return response;
                 

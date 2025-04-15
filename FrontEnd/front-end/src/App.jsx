@@ -11,11 +11,11 @@ import {
 import About from './components/About'
 import Notes from './pages/Notes'
 import AuthState from './context/Auth/AuthState'
+import SignupForm from './pages/SignupForm'
 
 function App() {
   return (
     <>
-      {/* <Login /> */}
       <AuthState>
 
         <NoteState>
@@ -24,6 +24,8 @@ function App() {
             <Routes>
               <Route path="/" exact element={<Notes />} />
               <Route path="/About" exact element={<About />} />
+              <Route path="/Login" exact element={<Login />} />
+              <Route path="/SignUp" exact element={<SignupForm />} />
             </Routes>
           </div>
         </NoteState>

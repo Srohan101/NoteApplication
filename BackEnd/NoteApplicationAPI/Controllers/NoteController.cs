@@ -37,7 +37,7 @@ namespace NoteApplicationAPI.Controllers
         }  
 
         [HttpGet("getNoteDetailsById")]
-        public async Task<NoteRequestModel> getNoteDetailsById(int Id)
+        public async Task<NoteByIdResponseModel> getNoteDetailsById(int Id)
         {
             var response = await _notesService.getNoteDetailsById(Id);
             return response;

@@ -15,14 +15,14 @@ namespace NoteApplicationAPI.Controllers
         }
         [AllowAnonymous]
         [HttpPost("userRegistration")]
-        public async Task<MasterResponse> userRegistration(UserRegistrationRequestModel registrationRequestModel)
+        public async Task<MasterResponse> userRegistration([FromBody]UserRegistrationRequestModel registrationRequestModel)
         {
             var res = await _service.userRegistration(registrationRequestModel);
             return res;
         }
         [AllowAnonymous]
         [HttpPost("getToken")]
-        public async Task<TokenResponseModel> getToken(AuthRequestModel authRequestModel)
+        public async Task<TokenResponseModel> getToken([FromBody]AuthRequestModel authRequestModel)
         {
             var res = await _service.getToken(authRequestModel);
             return res;

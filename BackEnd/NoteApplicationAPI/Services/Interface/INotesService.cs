@@ -9,6 +9,6 @@ namespace NoteApplicationAPI.Services.Interface
         Task<SystemResponse> AddNote(NoteRequestModel noteRequestModel);
         Task<List<NoteResponseModel>> getNoteDetails();
         Task<SystemResponse> DeleteNote(int Id);
-        Task<NoteRequestModel> getNoteDetailsById(int Id);
+        Task<NoteByIdResponseModel> getNoteDetailsById(int Id);
     }
 }

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import AuthContext from '../context/Auth/AuthContext';
 
 export default function login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
+
+  const authContext = useContext(AuthContext);
+
+  const { getToken } = authContext;
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -10,8 +14,9 @@ export default function login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Handle actual login logic
     console.log('Logging in with:', formData);
+
+    getToken(formData);
   };
 
   return (
