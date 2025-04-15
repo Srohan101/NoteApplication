@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import AuthContext from '../context/Auth/AuthContext';
+import { Link } from 'react-router-dom';
 
 export default function login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -20,8 +21,9 @@ export default function login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Note Application</h1>
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login to your account</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -59,7 +61,7 @@ export default function login() {
         </form>
 
         <p className="mt-4 text-sm text-center text-gray-600">
-          Don't have an account? <a href="#" className="text-blue-600 hover:underline">Sign up</a>
+          Don't have an account? <Link to="/signup" className="text-blue-600 hover:underline">Sign up</Link>
         </p>
       </div>
     </div>

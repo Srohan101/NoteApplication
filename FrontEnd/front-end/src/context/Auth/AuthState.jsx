@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AuthContext from './AuthContext';
 
 function AuthState(props) {
+
     const host = "https://localhost:7197";
 
     const getDropDown = async (DDType) => {
@@ -21,20 +22,24 @@ function AuthState(props) {
     }
 
     const userRegistration = async (payload) => {
-        const response = await fetch(`${host}/userRegistration`, {
-            method: "post",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
-        if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.message);
+        try {
+
+            const response = await fetch(`${host}/userRegistration`, {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message);
+            }
+            const json = await response.json();
+            return { status: json.status, message: json.message };
+        } catch (error) {
+            return { status: false, message: error.message };
         }
-        const json = await response.json();
-        console.log(json);
-        return json;
     }
 
     const getToken = async (payload) => {
@@ -84,7 +89,7 @@ function AuthState(props) {
 
     return (
 
-        <AuthContext.Provider value={{ getDropDown, userRegistration, getToken }}>
+        <AuthContext.Provider value={{ getDropDown, userRegistration, getToken, token }}>
             {props.children}
         </AuthContext.Provider>
     )

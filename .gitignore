@@ -53,3 +53,4 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 /BackEnd/NoteApplicationAPI/.vs
+/BackEnd/NoteApplicationAPI/.vs

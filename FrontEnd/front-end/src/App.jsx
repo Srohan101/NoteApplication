@@ -12,6 +12,7 @@ import About from './components/About'
 import Notes from './pages/Notes'
 import AuthState from './context/Auth/AuthState'
 import SignupForm from './pages/SignupForm'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
@@ -20,12 +21,28 @@ function App() {
 
         <NoteState>
           <div className="flex flex-col h-screen">
-            <NavBar />
+
             <Routes>
-              <Route path="/" exact element={<Notes />} />
-              <Route path="/About" exact element={<About />} />
-              <Route path="/Login" exact element={<Login />} />
-              <Route path="/SignUp" exact element={<SignupForm />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignupForm />} />
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <NavBar />
+                    <Notes />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <PrivateRoute>
+                    <NavBar />
+                    <About />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
           </div>
         </NoteState>
