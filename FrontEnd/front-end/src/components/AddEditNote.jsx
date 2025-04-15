@@ -51,26 +51,20 @@ const AddEditNote = ({ onCancel, initialNote = null, noteDetails, onSave }) => {
 
     const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        console.log(note);
-        if (!note.Title.trim()) {
-            setError('Title is required');
-            return;
-        }
-        if (!note.Content.trim()) {
-            setError('Content is required');
-            return;
-        }
+        if (!note.Title.trim()) return setError('Title is required');
+        if (!note.Content.trim()) return setError('Content is required');
+        if (note.CategoryIds.length === 0) return setError('Please select at least one category');
 
-        if (note.CategoryIds.length === 0) {
-            setError('Please select at least one category');
-            return;
+        const res = await AddEditNote(note); // Make sure this returns status + message
+        if (res?.status) {
+            onSave(res); // pass response up to Notes
+        } else {
+            setError(res.message || "Something went wrong.");
         }
-
-        AddEditNote(note);
     };
 
     const handleSave = () => {

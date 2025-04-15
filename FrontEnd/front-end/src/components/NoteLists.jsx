@@ -1,27 +1,22 @@
 import React, { useContext, useState, useEffect } from 'react'
 import NoteContext from '../context/Notes/noteContext'
-import NoteDetails from './NoteDetails'
+import NoteDetails from './NoteViewModal'
 import NotesTable from './NotesTable';
 import MultiSelect from './MultiSelect';
 
-export default function NoteLists({ onEdit }) {
+export default function NoteLists({ onEdit, onView }) {
 
-    const categories = [
-        { id: 1, name: 'Work' },
-        { id: 2, name: 'Personal' },
-        { id: 3, name: 'Ideas' },
-        { id: 4, name: 'Urgent' }
-    ];
-
-    const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
+    const [categoryOptions, setCategoryOptions] = useState([]); // State to store resolved categories
 
 
-    const handleChange = (ids) => {
-        setSelectedCategoryIds(ids);
-    };
+
+
 
     const handleEdit = (noteDetails) => {
         onEdit(noteDetails);
+    };
+    const handleView = (noteDetails) => {
+        onView(noteDetails);
     };
 
 
@@ -32,16 +27,8 @@ export default function NoteLists({ onEdit }) {
     }, []);
     return (
         <>
-            <MultiSelect
-                options={categories}
-                selectedIds={selectedCategoryIds}
-                onChange={handleChange}
-            />
-            <div className="mt-4 text-sm text-gray-600">
-                Selected IDs: {JSON.stringify(selectedCategoryIds)}
-            </div>
             <h2>Notes Details:</h2>
-            <NotesTable notesIni={notes} onEdit={handleEdit} />
+            <NotesTable notesIni={notes} onEdit={handleEdit} onView={handleView} />
             {/* <div className='flex flex-wrap gap-4'>
                 {notes.map((note) => {
                     return <NoteDetails note={note} />

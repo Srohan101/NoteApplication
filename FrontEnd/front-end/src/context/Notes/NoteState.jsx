@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import NoteContext from "./noteContext";
-
+import AuthContext from '../Auth/AuthContext';
 const NoteState = (props) => {
     const host = "https://localhost:7197/api/Note"
     const notesDetail = [
 
     ]
+    const authContext = useContext(AuthContext);
 
+    const { token } = authContext;
     const [notes, setNotes] = useState(notesDetail);
 
     const getAllNotes = async () => {
-        console.log("Getting all notes from server");
         const response = await fetch(`${host}/getNoteDetails`, {
             method: "get",
             headers: {
                 "content-type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InN0cmluZyBzdHJpbmcgc3RyaW5nIiwiQ291bnRyeSI6IkFmZ2hhbmlzdGFuIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoic3RyaW5nIiwiRE9CIjoiNi83LzIwMjQgMTI6Mjk6NDkgUE0iLCJleHAiOjE3NDQ2NzY4MTB9.Hu7wYXuJnVH2FZj5XaVgNId4_lVzVfENUxW1asHPSN4"
+                "Authorization": "Bearer " + token
             },
         });
         if (!response.ok) {
@@ -31,7 +32,8 @@ const NoteState = (props) => {
             method: "get",
             headers: {
                 "content-type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InN0cmluZyBzdHJpbmcgc3RyaW5nIiwiQ291bnRyeSI6IkFmZ2hhbmlzdGFuIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoic3RyaW5nIiwiRE9CIjoiNi83LzIwMjQgMTI6Mjk6NDkgUE0iLCJleHAiOjE3NDQ2NzY4MTB9.Hu7wYXuJnVH2FZj5XaVgNId4_lVzVfENUxW1asHPSN4"
+                "Authorization": "Bearer " + token
+
             },
         });
         if (!response.ok) {
@@ -48,7 +50,8 @@ const NoteState = (props) => {
             method: "post",
             headers: {
                 "content-type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InN0cmluZyBzdHJpbmcgc3RyaW5nIiwiQ291bnRyeSI6IkFmZ2hhbmlzdGFuIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoic3RyaW5nIiwiRE9CIjoiNi83LzIwMjQgMTI6Mjk6NDkgUE0iLCJleHAiOjE3NDQ2NzY4MTB9.Hu7wYXuJnVH2FZj5XaVgNId4_lVzVfENUxW1asHPSN4"
+                "Authorization": "Bearer " + token
+
             },
             body: JSON.stringify(id, title, content, CategoryIds),
         });
@@ -56,8 +59,10 @@ const NoteState = (props) => {
             const data = await response.json();
             throw new Error(data.message);
         }
-        console.log(response.json());
+        const json = await response.json();
         await getAllNotes();
+        return { status: json.status, message: json.message };
+
     }
 
     //Delete Note
@@ -67,15 +72,18 @@ const NoteState = (props) => {
             method: "delete",
             headers: {
                 "content-type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InN0cmluZyBzdHJpbmcgc3RyaW5nIiwiQ291bnRyeSI6IkFmZ2hhbmlzdGFuIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoic3RyaW5nIiwiRE9CIjoiNi83LzIwMjQgMTI6Mjk6NDkgUE0iLCJleHAiOjE3NDQ2NzY4MTB9.Hu7wYXuJnVH2FZj5XaVgNId4_lVzVfENUxW1asHPSN4"
+                "Authorization": "Bearer " + token
+
             },
         });
         if (!response.ok) {
             const data = await response.json();
             throw new Error(data.message);
         }
-        console.log(response.json());
+        const json = await response.json();
         await getAllNotes();
+        return { status: json.status, message: json.message };
+
     }
 
 

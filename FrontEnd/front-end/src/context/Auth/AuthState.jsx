@@ -43,24 +43,43 @@ function AuthState(props) {
     }
 
     const getToken = async (payload) => {
+        try {
+            const response = await fetch(`${host}/getToken`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
-        const response = await fetch(`${host}/getToken`, {
-            method: "post",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
-        if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.message);
+            // Check if it's JSON before parsing
+            const contentType = response.headers.get("Content-Type");
+            let json = {};
+            if (contentType && contentType.includes("application/json")) {
+                json = await response.json();
+            }
+
+            if (!response.ok) {
+                const errorMessage = json?.message || "Invalid username or password.";
+                return { status: false, message: errorMessage };
+            }
+
+            if (json.token) {
+                login(json.token);
+                return { status: true, message: `Welcome ${json.name || ''}` };
+            } else {
+                return { status: false, message: "Token not received. Try again." };
+            }
+        } catch (error) {
+            console.error("Error in getToken:", error); // You should see this if it throws
+            return {
+                status: false,
+                message: "Something went wrong. Please try again later.",
+            };
         }
-        const json = await response.json();
-        console.log(json);
-        if (json.token != "") {
-            login(json.token)
-        }
-    }
+    };
+
+
 
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem("token"));

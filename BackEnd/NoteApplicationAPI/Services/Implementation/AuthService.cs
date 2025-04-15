@@ -71,7 +71,7 @@ namespace NoteApplicationAPI.Services.Implementation
             catch (Exception ex)
             {
 
-                throw new ArgumentException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 

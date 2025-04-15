@@ -64,6 +64,7 @@ const SignupForm = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validate()) {
@@ -81,130 +82,140 @@ const SignupForm = () => {
             console.log(res);
             setAlert(res);
             if (res.status == true) {
-                const navigate = useNavigate();
-                navigate('/login');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 2000);
             }
         }
+        setTimeout(() => {
+            setAlert({ status: null, message: '' });
+        }, 3000);
     };
 
     return (
         <>
-            <AlertMessage
-                status={alert.status}
-                message={alert.message}
-                onClose={() => setAlert({ status: null, message: '' })}
-            />
-            <div className="max-w-xl mx-auto p-6 bg-white rounded shadow-md">
-                <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block mb-1">First Name</label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                        {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
-                    </div>
+            {alert.status != null && (
+                <AlertMessage
+                    status={alert.status}
+                    message={alert.message}
+                    onClose={() => setAlert({ status: null, message: '' })}
+                />
+            )}
+            <div className="min-h-screen flex items-center justify-center bg-gray-100">
+                <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md overflow-y-auto max-h-[90vh]">
+                    <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block mb-1">First Name</label>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                                {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+                            </div>
 
-                    <div>
-                        <label className="block mb-1">Middle Name</label>
-                        <input
-                            type="text"
-                            name="middleName"
-                            value={formData.middleName}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                    </div>
+                            <div>
+                                <label className="block mb-1">Middle Name</label>
+                                <input
+                                    type="text"
+                                    name="middleName"
+                                    value={formData.middleName}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                            </div>
 
-                    <div>
-                        <label className="block mb-1">Last Name</label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                        {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
-                    </div>
+                            <div>
+                                <label className="block mb-1">Last Name</label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                                {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+                            </div>
 
-                    <div>
-                        <label className="block mb-1">Date of Birth</label>
-                        <input
-                            type="date"
-                            name="dob"
-                            value={formData.dob}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                        {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
-                    </div>
+                            <div>
+                                <label className="block mb-1">Date of Birth</label>
+                                <input
+                                    type="date"
+                                    name="dob"
+                                    value={formData.dob}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                                {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
+                            </div>
 
-                    <div>
-                        <label className="block mb-1">Country</label>
-                        <select
-                            name="countryId"
-                            value={formData.countryId}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
+                            <div>
+                                <label className="block mb-1">Country</label>
+                                <select
+                                    name="countryId"
+                                    value={formData.countryId}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                >
+                                    <option value="">-- Select Country --</option>
+                                    {countries.map(country => (
+                                        <option key={country.id} value={country.id}>
+                                            {country.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.countryId && <p className="text-red-500 text-sm">{errors.countryId}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block mb-1">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block mb-1">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                                {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block mb-1">Confirm Password</label>
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded"
+                                />
+                                {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
                         >
-                            <option value="">-- Select Country --</option>
-                            {countries.map(country => (
-                                <option key={country.id} value={country.id}>
-                                    {country.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.countryId && <p className="text-red-500 text-sm">{errors.countryId}</p>}
-                    </div>
-
-                    <div>
-                        <label className="block mb-1">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-                    </div>
-
-                    <div>
-                        <label className="block mb-1">Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-                    </div>
-
-                    <div>
-                        <label className="block mb-1">Confirm Password</label>
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded"
-                        />
-                        {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-                    >
-                        Sign Up
-                    </button>
-                </form>
+                            Sign Up
+                        </button>
+                    </form>
+                </div>
             </div>
         </>
     );
