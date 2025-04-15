@@ -2,7 +2,10 @@ import React, { useState, useContext } from "react";
 import NoteContext from "./noteContext";
 import AuthContext from '../Auth/AuthContext';
 const NoteState = (props) => {
-    const host = "https://localhost:7197/api/Note"
+    const ip = import.meta.env.VITE_API_IP;
+    const port = import.meta.env.VITE_API_PORT;
+    const host = `https://${ip}:${port}/api/Note`;
+    console.log(host);
     const notesDetail = [
 
     ]

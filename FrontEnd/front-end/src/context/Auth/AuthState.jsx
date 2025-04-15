@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import AuthContext from './AuthContext';
 
 function AuthState(props) {
+    const ip = import.meta.env.VITE_API_IP;
+    const port = import.meta.env.VITE_API_PORT;
+    const host = `https://${ip}:${port}`;
 
-    const host = "https://localhost:7197";
 
     const getDropDown = async (DDType) => {
         const response = await fetch(`${host}/getDropDown?DDType=${DDType}`, {
