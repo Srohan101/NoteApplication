@@ -52,29 +52,32 @@ function AuthState(props) {
         }
         const json = await response.json();
         console.log(json);
-        localStorage.setItem("token", json.token);
+        if (json.token != "") {
+            login(json.token)
+        }
     }
 
-    // const [user, setUser] = useState(null);
-    // const [token, setToken] = useState(localStorage.getItem("token"));
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem("token"));
 
-    // useEffect(() => {
-    //     if (token) {
-    //         // Optional: fetch user info using token or decode token
-    //         setUser({}); // Set actual user
-    //     }
-    // }, [token]);
+    useEffect(() => {
+        if (token) {
+            // Optional: fetch user info using token or decode token
+            setUser({}); // Set actual user
+        }
+    }, [token]);
 
-    // const login = (token) => {
-    //     localStorage.setItem("token", token);
-    //     setToken(token);
-    // };
+    const login = (token) => {
+        console.log("token");
+        localStorage.setItem("token", token);
+        setToken(token);
+    };
 
-    // const logout = () => {
-    //     localStorage.removeItem("token");
-    //     setToken(null);
-    //     setUser(null);
-    // };
+    const logout = () => {
+        localStorage.removeItem("token");
+        setToken(null);
+        setUser(null);
+    };
 
 
 
